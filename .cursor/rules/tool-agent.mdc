@@ -1,0 +1,51 @@
+---
+description: LangChain Tool 学习与实战生成器。零基础学 Tool/Agent，或按场景填空生成代码。
+globs: tool-test/**/*
+alwaysApply: false
+---
+
+# LangChain Tool 学习与实战
+
+完整提示词见 `tool-test/PROMPT.md`，场景配置见 `tool-test/scenarios/`。
+
+## 触发方式
+
+- **学习**：`从阶段 N 开始，我是零基础`
+- **实战**：`按 PROMPT.md + scenarios/{name}.yaml 生成`
+- **扩展**：`基于 all-tools.mjs 新增 {tool} Tool`
+
+## 三层结构
+
+1. **Layer 0 概念** — 生成代码前先输出 Tool/bindTools/Agent循环/MCP 解释
+2. **Layer 1 骨架** — runAgent 循环、Tool 模板、模型初始化（不变，复利复用）
+3. **Layer 2 变量** — TOOLS、SYSTEM_RULES、DEMO_QUERY、MCP_SERVERS（按场景填）
+
+## Tool 三要素（description 最关键）
+
+```js
+tool(fn, {
+  name: 'snake_case',
+  description: '【何时调用】+【输入】+【返回】',
+  schema: z.object({ param: z.string().describe('...') }),
+})
+```
+
+## Agent 循环（所有 Agent 统一）
+
+invoke → 有 tool_calls → 执行 → ToolMessage 回传 → 再 invoke → 无 tool_calls → 返回
+
+## 阶段文件
+
+| 阶段 | 文件 |
+|------|------|
+| 1 | hello-langchain.mjs |
+| 2 | tool-file-read.mjs |
+| 3 | all-tools.mjs |
+| 4 | node-exec.mjs |
+| 5 | mini-cursor.mjs |
+| 6 | my-mcp-server.mjs, langchain-mcp-test.mjs, mcp-test.mjs |
+
+## 输出要求
+
+每阶段附带：目标、与上节课区别、运行命令、预期输出、动手练习、自检清单（3 条）。
+路径用 `{PROJECT_ROOT}`，不写死绝对路径。

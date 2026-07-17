@@ -1,0 +1,44 @@
+# 场景 B：Mini Cursor — 项目脚手架 Agent
+# 用法：按 tool-test/PROMPT.md + scenarios/mini-cursor.yaml 生成代码
+
+name: mini-cursor
+description: 本地版 Cursor，自动读/写/执行命令完成开发任务
+
+stage: 5
+tools:
+  - read_file
+  - write_file
+  - execute_command
+  - list_directory
+
+demo_query: |
+  创建一个功能丰富的 React TodoList 应用：
+  1. 创建项目：echo -e "n\nn" | pnpm create vite react-todo-app --template react-ts
+  2. 修改 src/App.tsx，实现 TodoList（增删改查、筛选、localStorage）
+  3. 添加渐变背景和 CSS 动画
+  4. 列出目录确认
+  5. 在 react-todo-app 中 pnpm install && pnpm run dev
+
+system_rules: |
+  你是一个项目管理助手，使用工具完成任务。
+  当前工作目录: {CWD}
+
+  工具：
+  1. read_file: 读取文件
+  2. write_file: 写入文件
+  3. execute_command: 执行命令（支持 workingDirectory 参数）
+  4. list_directory: 列出目录
+
+  重要规则 - execute_command：
+  - workingDirectory 参数会自动切换到指定目录
+  - 当使用 workingDirectory 时，绝对不要在 command 中使用 cd
+  - 错误示例: { command: "cd react-todo-app && pnpm install", workingDirectory: "react-todo-app" }
+  - 正确示例: { command: "pnpm install", workingDirectory: "react-todo-app" }
+
+  重要规则 - write_file：
+  - 写 React 组件时，如果存在对应 CSS 文件，记得 import
+
+learning_focus:
+  - 工具库模块化（all-tools.mjs）
+  - System Prompt 约束工具行为
+  - maxIterations 防止死循环

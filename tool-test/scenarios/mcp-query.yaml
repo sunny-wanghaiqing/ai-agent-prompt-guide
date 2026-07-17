@@ -1,0 +1,41 @@
+# 场景 C：MCP 数据查询
+# 用法：按 tool-test/PROMPT.md + scenarios/mcp-query.yaml 生成代码
+
+name: mcp-query
+description: 自建 MCP Server + LangChain Client，跨进程调用 Tool
+
+stage: 6
+tools: []  # 工具来自 MCP Server
+
+demo_query: "查一下用户 002 的信息"
+
+system_rules: |
+  优先调用 query_user 工具查询用户信息。
+  不要编造数据，查不到就告知用户可用的 ID。
+
+mcp_servers:
+  my-mcp-server:
+    command: node
+    args:
+      - "{PROJECT_ROOT}/src/my-mcp-server.mjs"
+
+mcp_server_tools:
+  - name: query_user
+    description: 查询数据库中的用户信息，输入用户 ID
+    mock_data:
+      "001": { name: 张三, role: admin }
+      "002": { name: 李四, role: user }
+      "003": { name: 王五, role: user }
+
+mcp_resources:
+  - name: 使用指南
+    uri: docs://guide
+
+env_required:
+  - OPENAI_API_KEY
+  - OPENAI_BASE_URL
+
+learning_focus:
+  - MCP Server 注册 Tool 和 Resource
+  - MultiServerMCPClient 连接
+  - listResources + readResource 注入 SystemMessage

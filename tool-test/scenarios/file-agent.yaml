@@ -1,0 +1,24 @@
+# 场景 A：文件 / Code 助手
+# 用法：按 tool-test/PROMPT.md + scenarios/file-agent.yaml 生成代码
+
+name: file-agent
+description: 读取并解释代码文件，适合入门 Tool 概念
+
+stage: 2
+tools:
+  - read_file
+
+demo_query: "读取 ./src/tool-file-read.mjs 文件内容并解释代码"
+
+system_rules: |
+  你是一个代码助手，可以使用工具读取文件并解释代码。
+  工作流程：
+  1. 用户要求读取文件时，立即调用 read_file 工具
+  2. 等待工具返回文件内容
+  3. 基于文件内容进行分析和解释
+  重要：先读文件再回答，不要猜测内容。
+
+learning_focus:
+  - Tool 三要素（name / description / schema）
+  - bindTools 绑定
+  - Agent 循环（AIMessage → ToolMessage → 再 invoke）

@@ -1,0 +1,47 @@
+# 场景 D：多 MCP 编排（地图 + 文件 + 浏览器）
+# 用法：按 tool-test/PROMPT.md + scenarios/multi-mcp.yaml 生成代码
+
+name: multi-mcp
+description: 多个 MCP Server 协同完成复杂任务
+
+stage: 6
+tools: []  # 工具来自多个 MCP Server
+
+demo_query: "北京南站附近的酒店，最近的 3 个，拿到酒店图片，打开浏览器展示，每个 tab 一个 url，页面标题改为酒店名"
+
+system_rules: |
+  分步执行复杂任务：
+  1. 先用地图服务查酒店
+  2. 再用文件系统保存结果（如需要）
+  3. 最后用浏览器展示
+  每步完成后检查结果再继续。
+
+mcp_servers:
+  my-mcp-server:
+    command: node
+    args:
+      - "{PROJECT_ROOT}/src/my-mcp-server.mjs"
+  amap-maps-streamableHTTP:
+    url: "https://mcp.amap.com/mcp?key={AMAP_MAPS_API_KEY}"
+  filesystem:
+    command: npx
+    args:
+      - "-y"
+      - "@modelcontextprotocol/server-filesystem"
+      - "{ALLOWED_PATHS}"
+  chrome-devtools:
+    command: npx
+    args:
+      - "-y"
+      - "chrome-devtools-mcp@latest"
+
+env_required:
+  - OPENAI_API_KEY
+  - OPENAI_BASE_URL
+  - AMAP_MAPS_API_KEY
+  - ALLOWED_PATHS  # 逗号分隔的允许访问路径
+
+learning_focus:
+  - 多 MCP Server 同时连接
+  - toolResult 多种返回格式处理（string / {text}）
+  - 复杂任务的分步编排
