@@ -8,8 +8,8 @@ AI Agent 工具调用实战指南：从 **Tool Description 设计** 到 **LangCh
 
 | 模块 | 说明 |
 |------|------|
-| [01-mcp-tool-description-design.md](./01-mcp-tool-description-design.md) | MCP Tool Description 设计方法论（四要素法 + 踩坑实录） |
 | [tool-test/](./tool-test/) | LangChain Tool 从零学习到场景实战 |
+| [tool-test/01-mcp-tool-description-design.md](./tool-test/01-mcp-tool-description-design.md) | MCP Tool Description 设计方法论（四要素法 + 踩坑实录） |
 
 ## 核心方法
 
@@ -23,7 +23,7 @@ AI Agent 工具调用实战指南：从 **Tool Description 设计** 到 **LangCh
 
 ### 阅读设计文档
 
-直接打开 [01-mcp-tool-description-design.md](./01-mcp-tool-description-design.md)，了解如何让 Agent 精准调用 MCP 工具。
+直接打开 [tool-test/01-mcp-tool-description-design.md](./tool-test/01-mcp-tool-description-design.md)，了解如何让 Agent 精准调用 MCP 工具。
 
 ### 动手实战
 
@@ -47,11 +47,11 @@ npm start
 ## 目录结构
 
 ```
-├── 01-mcp-tool-description-design.md   # MCP Tool Description 设计
 ├── tool-test/
-│   ├── PROMPT.md                       # 学习 + 实战主提示词
-│   ├── scenarios/                      # 场景配置（填空即用）
-│   └── src/                            # 示例代码
+│   ├── 01-mcp-tool-description-design.md  # MCP Tool Description 设计
+│   ├── PROMPT.md                          # 学习 + 实战主提示词
+│   ├── scenarios/                         # 场景配置（填空即用）
+│   └── src/                               # 示例代码
 └── .cursor/rules/                      # Cursor 规则
 ```
 
